@@ -51,7 +51,7 @@ namespace API.Controllers
             Basket basket = await RetrieveBasket();
             if (basket == null) basket = CreateBasket();
             Product product = await context.Products.FindAsync(productId);
-            if (product == null) return NotFound();
+            if (product == null) return BadRequest(new ProblemDetails { Title = "Product Not Found" });
             basket.AddItem(product, quantity);
 
             var result = await context.SaveChangesAsync() > 0;

@@ -19,28 +19,31 @@ import NotFound from "../errors/NotFound";
 import BasketPage from "../../features/basket/BasketPage";
 import { getCookie } from "../utils/util";
 import agent from "../api/agent";
-import { useStoreContext } from "../context/StoreContext";
+// import { useStoreContext } from "../context/StoreContext";
 import Loading from "./Loading";
 import CheckoutPage from "../../features/checkout/CheckoutPage";
+import { useAppDispatch } from "../store/configureStore";
+import { setBasket } from "../../features/basket/BasketSlice";
 
 function App() {
+  const dispatch = useAppDispatch();
   const [darkMode, setDarkMode] = useState(false);
+
   const paletteType = darkMode ? "dark" : "light";
   const [loading, setLoading] = useState(true);
-  const { setBasket } = useStoreContext();
 
   useEffect(() => {
     const buyerId = getCookie("buyerId");
     if (buyerId) {
       agent.Basket.get()
-        .then(basket => setBasket(basket))
+        .then(basket => dispatch(setBasket(basket)))
         .catch((err) => console.log(err))
         .finally(() => setLoading(false));
     }
     else {
       setLoading(false);
     }
-  }, [setBasket])
+  }, [dispatch])
 
   const theme = createTheme({
     palette: {
