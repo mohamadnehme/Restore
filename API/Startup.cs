@@ -1,4 +1,7 @@
 using API.Data;
+using API.Entities;
+using API.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -24,6 +27,15 @@ public class Startup
         {
             opt.UseSqlite(configRoot.GetConnectionString("DefaultConnection"));
         });
+        services.AddCors();
+        services.AddIdentityCore<User>(opt =>
+        {
+            opt.User.RequireUniqueEmail = true;
+        })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<StoreContext>();
+        services.AddAuthentication();
+        services.AddScoped<TokenService>();
     }
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {

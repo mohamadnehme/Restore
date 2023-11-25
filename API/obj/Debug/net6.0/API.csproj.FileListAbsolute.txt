@@ -104,3 +104,11 @@ C:\Users\Mohamad\Desktop\Restore\API\obj\Debug\net6.0\refint\API.dll
 C:\Users\Mohamad\Desktop\Restore\API\obj\Debug\net6.0\API.pdb
 C:\Users\Mohamad\Desktop\Restore\API\obj\Debug\net6.0\API.genruntimeconfig.cache
 C:\Users\Mohamad\Desktop\Restore\API\obj\Debug\net6.0\ref\API.dll
+C:\Users\Mohamad\Desktop\Restore\API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Mohamad\Desktop\Restore\API\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Mohamad\Desktop\Restore\API\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Mohamad\Desktop\Restore\API\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Mohamad\Desktop\Restore\API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Mohamad\Desktop\Restore\API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Mohamad\Desktop\Restore\API\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Mohamad\Desktop\Restore\API\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
