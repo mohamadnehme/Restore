@@ -32,7 +32,7 @@ public class Startup
         {
             opt.User.RequireUniqueEmail = true;
         })
-            .AddRoles<IdentityRole>()
+            .AddRoles<Role>()
             .AddEntityFrameworkStores<StoreContext>();
         services.AddAuthentication();
         services.AddScoped<TokenService>();

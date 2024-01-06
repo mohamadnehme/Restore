@@ -96,7 +96,7 @@ builder.Services.AddIdentityCore<User>(opt =>
 {
     opt.User.RequireUniqueEmail = true;
 })
-    .AddRoles<IdentityRole>()
+    .AddRoles<Role>()
     .AddEntityFrameworkStores<StoreContext>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -118,7 +118,18 @@ builder.Services.AddScoped<TokenService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+try
+{
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    await context.Database.MigrateAsync();
+    await DbInitializer.Initialize(context, userManager);
+}
+catch (Exception ex)
+{
 
+}
 app.UseMiddleware<ExceptionMidelware>();
 
 if (app.Environment.IsDevelopment())

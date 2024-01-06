@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mohamad\\Desktop\\Restore\\API\\API.csproj": {}
+    "D:\\react-projects\\Restore\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mohamad\\Desktop\\Restore\\API\\API.csproj": {
+    "D:\\react-projects\\Restore\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mohamad\\Desktop\\Restore\\API\\API.csproj",
+        "projectUniqueName": "D:\\react-projects\\Restore\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\Mohamad\\Desktop\\Restore\\API\\API.csproj",
+        "projectPath": "D:\\react-projects\\Restore\\API\\API.csproj",
         "packagesPath": "C:\\Users\\Mohamad\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mohamad\\Desktop\\Restore\\API\\obj\\",
+        "outputPath": "D:\\react-projects\\Restore\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Mohamad\\Desktop\\Restore\\NuGet.Config",
+          "D:\\react-projects\\Restore\\NuGet.Config",
           "C:\\Users\\Mohamad\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
