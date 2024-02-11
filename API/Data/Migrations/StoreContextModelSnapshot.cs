@@ -26,11 +26,9 @@ namespace API.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ClientSecret")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PaymentIntentId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -140,6 +138,10 @@ namespace API.Data.Migrations
                     b.Property<long>("Price")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("PublicId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("QuantityInStock")
                         .HasColumnType("INTEGER");
 
@@ -182,14 +184,14 @@ namespace API.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "36a24395-eaaa-4cab-957b-8f83d7330043",
+                            ConcurrencyStamp = "454768e1-9ee9-4fa0-a545-ee25bac1c8da",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "f5442736-1012-4d63-b750-aca2f9fafc92",
+                            ConcurrencyStamp = "850f758f-0789-4868-8736-e0e62f89572d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

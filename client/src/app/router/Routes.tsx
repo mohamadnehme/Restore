@@ -12,17 +12,24 @@ import ServerError from "../errors/ServerErrors";
 import RequireAuth from "./RequireAuth";
 import Orders from "../../features/orders/Order";
 import CheckoutWrapper from "../../features/checkout/CheckoutWrapper";
+import Inventory from "../../features/admin/Inventory";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
         children: [
-            // authenticated routes
             {
+                // authenticated routes
                 element: <RequireAuth />, children: [
                     { path: 'checkout', element: <CheckoutWrapper /> },
                     { path: 'orders', element: <Orders /> }
+                ]
+            },
+            {
+                // admin routes
+                element: <RequireAuth roles={['Admin']} />, children: [
+                    { path: '/inventory', element: <Inventory /> },
                 ]
             },
             { path: 'catalogue', element: <Catalogue /> },

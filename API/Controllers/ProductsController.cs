@@ -5,16 +5,24 @@ using API.Extensions;
 using API.RequestHelpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using API.DTOs;
+using AutoMapper;
+using API.Services;
 
 namespace API.Controllers
 {
     public class ProductsController : BaseApiController
     {
         private readonly StoreContext storeContext;
+        private readonly IMapper mapper;
+        private readonly ImageService imageService;
 
-        public ProductsController(StoreContext storeContext)
+        public ProductsController(StoreContext storeContext, IMapper mapper, ImageService imageService)
         {
             this.storeContext = storeContext;
+            this.mapper = mapper;
+            this.imageService = imageService;
         }
 
         [HttpGet]
@@ -33,7 +41,7 @@ namespace API.Controllers
             return products;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetProduct")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             var product = await storeContext.Products.FindAsync(id);
@@ -52,6 +60,84 @@ namespace API.Controllers
                 brands,
                 types
             });
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<ActionResult<Product>> CreateProduct([FromForm] CreateProductDto productDto)
+        {
+            var product = mapper.Map<Product>(productDto);
+
+            if (productDto.File != null)
+            {
+                var imageResult = await imageService.AddImageAsync(productDto.File);
+
+                if (imageResult.HttpStatusCode != 200) return BadRequest(new ProblemDetails
+                {
+                    Title = imageResult.metadata.ToString()
+                });
+
+                product.PictureUrl = imageResult.url;
+                product.PublicId = imageResult.fileId;
+            }
+
+            storeContext.Products.Add(product);
+
+            var result = await storeContext.SaveChangesAsync() > 0;
+
+            if (result) return CreatedAtRoute("GetProduct", new { Id = product.Id }, product);
+
+            return BadRequest(new ProblemDetails { Title = "Problem creating new product" });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut]
+        public async Task<ActionResult<Product>> UpdateProduct([FromForm] UpdateProductDto productDto)
+        {
+            var product = await storeContext.Products.FindAsync(productDto.Id);
+
+            if (product == null) return NotFound();
+
+            mapper.Map(productDto, product);
+
+            if (productDto.File != null)
+            {
+                var imageUploadResult = await imageService.AddImageAsync(productDto.File);
+
+                if (imageUploadResult.HttpStatusCode != 200)
+                    return BadRequest(new ProblemDetails { Title = imageUploadResult.metadata.ToString() });
+
+                if (!string.IsNullOrEmpty(product.PublicId))
+                    await imageService.DeleteImageAsync(product.PublicId);
+
+                product.PictureUrl = imageUploadResult.url;
+                product.PublicId = imageUploadResult.fileId;
+            }
+
+            var result = await storeContext.SaveChangesAsync() > 0;
+
+            if (result) return Ok(product);
+
+            return BadRequest(new ProblemDetails { Title = "Problem updating product" });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteProduct(int id)
+        {
+            var product = await storeContext.Products.FindAsync(id);
+
+            if (product == null) return NotFound();
+
+            if (!string.IsNullOrEmpty(product.PublicId))
+                await imageService.DeleteImageAsync(product.PublicId);
+
+            storeContext.Products.Remove(product);
+
+            var result = await storeContext.SaveChangesAsync() > 0;
+
+            if (result) return Ok();
+
+            return BadRequest(new ProblemDetails { Title = "Problem deleting product" });
         }
     }
 }
